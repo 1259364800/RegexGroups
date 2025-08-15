@@ -5,7 +5,7 @@ import { getSortableDelay, uuidv4 } from '../../utils.js';
 import { getContext } from '../../st-context.js';
 import { Popup, POPUP_TYPE } from '../../popup.js';
 
-const MODULE_NAME = 'regex-groups';
+const MODULE_NAME = 'RegexGroups';
 
 function getAllRegexScripts() {
 	const ctx = getContext();
