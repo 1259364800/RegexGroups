@@ -1,7 +1,7 @@
 .regex_groups .regex-group-item {
     display: flex;
-    flex-direction: column;
-    gap: 6px;
+    flex-direction: row;
+    gap: 3px;
     border: 1px solid var(--SmartThemeBorderColor);
     border-radius: 6px;
     padding: 6px;
@@ -41,13 +41,6 @@
 
 .chip-text {
     color: #fff;
-}
-
-.regex-groups .regex-group-item {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 4px;
 }
 
 .regex-groups .regex-group-item .group-name {

@@ -45,14 +45,12 @@ function buildGroupItem(group) {
 	const li = $(`<div class="regex-group-item" data-id="${group.id}" style="display: flex; align-items: center; margin: 3px 0; padding: 5px 8px; border: 1px solid var(--SmartThemeBorderColor); border-radius: 5px; height: 36px;">
 		<span class="drag-handle menu-handle" style="margin-right: 8px; cursor: move;">&#9776;</span>
 		<span class="group-name text_pole" value="${group.name}" style="flex: 1; margin-right: 8px; height: 24px;">${group.name}</span>
+		<input type="checkbox" class="group-enabled" ${group.disabled ? '' : 'checked'} />
+		<span class="fa-solid ${group.disabled ? 'fa-toggle-off' : 'fa-toggle-on'}"></span>
 		<div class="group-actions" style="display: flex; align-items: center; gap: 3px; white-space: nowrap;">
-			<label class="checkbox flex-container" title="${group.disabled ? '启用' : '禁用'}分组" style="margin: 0;">
-				<input type="checkbox" class="group-enabled" ${group.disabled ? '' : 'checked'} />
-				<span class="fa-solid ${group.disabled ? 'fa-toggle-off' : 'fa-toggle-on'}"></span>
-			</label>
-			<button class="menu_button view-scripts" title="查看正则" style="padding: 2px 5px; min-height: 28px;"><i class="fa-solid fa-eye"></i></button>
-			<button class="menu_button add-script" title="添加正则" style="padding: 2px 5px; min-height: 28px;"><i class="fa-solid fa-plus"></i></button>
-			<button class="menu_button remove-group" title="删除分组" style="padding: 2px 5px; min-height: 28px;"><i class="fa-solid fa-trash"></i></button>
+		<button class="menu_button view-scripts" title="查看正则" style="padding: 2px 5px; min-height: 28px;"><i class="fa-solid fa-eye"></i></button>
+		<button class="menu_button add-script" title="添加正则" style="padding: 2px 5px; min-height: 28px;"><i class="fa-solid fa-plus"></i></button>
+		<button class="menu_button remove-group" title="删除分组" style="padding: 2px 5px; min-height: 28px;"><i class="fa-solid fa-trash"></i></button>
 		</div>
 	</div>`);
 	return li;
