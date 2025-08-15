@@ -44,7 +44,7 @@ function saveGroupsDebounced() {
 function buildGroupItem(group) {
 	const li = $(`<div class="regex-group-item" data-id="${group.id}" style="display: flex; align-items: center; margin: 3px 0; padding: 5px 8px; border: 1px solid var(--SmartThemeBorderColor); border-radius: 5px; height: 36px;">
 		<span class="drag-handle menu-handle" style="margin-right: 8px; cursor: move;">&#9776;</span>
-		<input class="group-name text_pole" value="${group.name}" style="flex: 1; margin-right: 8px; height: 24px;"/>
+		<span class="group-name text_pole" value="${group.name}" style="flex: 1; margin-right: 8px; height: 24px;">${group.name}</span>
 		<div class="group-actions" style="display: flex; align-items: center; gap: 3px; white-space: nowrap;">
 			<label class="checkbox flex-container" title="${group.disabled ? '启用' : '禁用'}分组" style="margin: 0;">
 				<input type="checkbox" class="group-enabled" ${group.disabled ? '' : 'checked'} />
@@ -60,7 +60,7 @@ function buildGroupItem(group) {
 
 function buildScriptChip(script) {
 	const div = $(`<div class="regex-chip" data-id="${script.id}" style="display: flex; align-items: center; margin: 2px 0; padding: 3px 5px; border: 1px solid var(--SmartThemeBorderColor); border-radius: 4px; width: 100%; height: 32px;">
-		<span class="chip-text" style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${script.scriptName}</span>
+		<span class="chip-text" style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: left;">${script.scriptName}</span>
 		<label class="checkbox flex-container" style="margin: 0 5px;">
 			<input type="checkbox" class="script-enabled" ${script.disabled ? '' : 'checked'} />
 			<span class="fa-solid ${script.disabled ? 'fa-toggle-off' : 'fa-toggle-on'}"></span>
@@ -143,7 +143,7 @@ function openAddScriptPopup(onPick) {
 	const { global, scoped } = getAllRegexScripts();
 	const all = [...global, ...scoped];
 	const html = $('<div class="flex-container flexFlowColumn"></div>');
-	const list = $('<div class="flex-container flexFlowColumn" style="max-height: 500px; overflow-y: auto;"></div>');
+	const list = $('<div class="flex-container flexFlowColumn" style="overflow-y: auto;"></div>');
 	for (const s of all) {
 		const row = $(`<label class="checkbox flex-container"><input type="checkbox" value="${s.id}"><span>${s.scriptName}</span></label>`);
 		list.append(row);
@@ -231,7 +231,7 @@ async function render() {
 					alert('该分组没有正则脚本。');
 					return;
 				}
-				const html = $('<div class="flex-container flexFlowColumn" style="min-width: 450px;"></div>');
+				const html = $('<div class="flex-container flexFlowColumn"></div>');
 				html.append(`<h3 style="margin: 0 0 5px 0;">${g.name} - 正则脚本列表</h3>`);
 				const scriptsList = $('<div class="flex-container flexFlowColumn" style="max-height: 400px; overflow-y: auto; margin-top: 5px;"></div>');
 				
