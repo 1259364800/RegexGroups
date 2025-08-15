@@ -42,17 +42,17 @@ function saveGroupsDebounced() {
 }
 
 function buildGroupItem(group) {
-	const li = $(`<div class="regex-group-item" data-id="${group.id}">
-		<span class="drag-handle menu-handle">&#9776;</span>
-		<input class="group-name text_pole" value="${group.name}"/>
-		<div class="group-actions">
-			<label class="checkbox flex-container">
+	const li = $(`<div class="regex-group-item" data-id="${group.id}" style="display: flex; align-items: center; margin: 5px 0; padding: 8px; border: 1px solid var(--SmartThemeBorderColor); border-radius: 5px;">
+		<span class="drag-handle menu-handle" style="margin-right: 10px;">&#9776;</span>
+		<input class="group-name text_pole" value="${group.name}" style="flex: 1; margin-right: 10px;"/>
+		<div class="group-actions" style="display: flex; align-items: center; gap: 5px;">
+			<label class="checkbox flex-container" title="${group.disabled ? '启用' : '禁用'}分组">
 				<input type="checkbox" class="group-enabled" ${group.disabled ? '' : 'checked'} />
 				<span class="fa-solid ${group.disabled ? 'fa-toggle-off' : 'fa-toggle-on'}"></span>
 			</label>
-			<button class="menu_button view-scripts">查看正则</button>
-			<button class="menu_button add-script">添加正则</button>
-			<button class="menu_button remove-group">删除</button>
+			<button class="menu_button view-scripts" title="查看正则"><i class="fa-solid fa-eye"></i></button>
+			<button class="menu_button add-script" title="添加正则"><i class="fa-solid fa-plus"></i></button>
+			<button class="menu_button remove-group" title="删除分组"><i class="fa-solid fa-trash"></i></button>
 		</div>
 	</div>`);
 	return li;
@@ -168,6 +168,40 @@ async function render() {
 	const tabSelector = root.find('#regex_groups_scope');
 	const groupsList = root.find('#regex_groups_list');
 	const addGroupBtn = root.find('#add_regex_group');
+	
+	// 优化添加按钮样式
+	addGroupBtn.html('<i class="fa-solid fa-plus"></i> 新建分组');
+	addGroupBtn.css({
+		'margin-left': 'auto',
+		'display': 'flex',
+		'align-items': 'center',
+		'gap': '5px'
+	});
+	
+	// 创建标题行，包含标题和添加按钮
+	const titleRow = $(`<div style="display: flex; align-items: center; justify-content: space-between; margin-top: 15px; margin-bottom: 5px;">
+		<div>
+			<h3 style="margin-bottom: 5px;">正则分组管理</h3>
+			<p style="font-size: 0.9em; opacity: 0.8;">创建分组来组织和管理您的正则表达式</p>
+		</div>
+	</div>`);
+	
+	// 将添加按钮移动到标题行
+	addGroupBtn.detach();
+	titleRow.append(addGroupBtn);
+	
+	// 添加样式
+	groupsList.css({
+		'border': '1px solid var(--SmartThemeBorderColor)',
+		'border-radius': '5px',
+		'padding': '10px',
+		'margin-top': '10px',
+		'max-height': '500px',
+		'overflow-y': 'auto'
+	});
+	
+	// 添加标题行
+	groupsList.before(titleRow);
 
 	function getActiveGroupsRef() {
 		return tabSelector.val() === 'global' ? getGroupsStorage().global : getCurrentScopedGroups();
@@ -283,8 +317,17 @@ async function render() {
 	}
 
 	addGroupBtn.on('click', async function () {
+		const html = $('<div class="flex-container flexFlowColumn"></div>');
+		const input = $('<input type="text" class="text_pole" placeholder="请输入分组名称" value="新建分组" />');
+		html.append(input);
+		
+		const popup = new Popup(html, POPUP_TYPE.CONFIRM, '添加正则分组', { okButton: t`Add` });
+		const result = await popup.show();
+		if (!result) return;
+		
+		const groupName = input.val() || '新建分组';
 		const groups = getActiveGroupsRef();
-		groups.push({ id: uuidv4(), name: '新建分组', disabled: false, scripts: [] });
+		groups.push({ id: uuidv4(), name: groupName, disabled: false, scripts: [] });
 		saveGroupsDebounced();
 		await refreshList();
 	});
