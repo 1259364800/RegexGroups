@@ -143,7 +143,7 @@ function openAddScriptPopup(onPick) {
 	const { global, scoped } = getAllRegexScripts();
 	const all = [...global, ...scoped];
 	const html = $('<div class="flex-container flexFlowColumn"></div>');
-	const list = $('<div class="flex-container flexFlowColumn"></div>');
+	const list = $('<div class="flex-container flexFlowColumn" style="max-height: 500px; overflow-y: auto;"></div>');
 	for (const s of all) {
 		const row = $(`<label class="checkbox flex-container"><input type="checkbox" value="${s.id}"><span>${s.scriptName}</span></label>`);
 		list.append(row);
