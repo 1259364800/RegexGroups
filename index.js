@@ -50,18 +50,18 @@ function buildGroupItem(group) {
 				<input type="checkbox" class="group-enabled" ${group.disabled ? '' : 'checked'} />
 				<span class="fa-solid ${group.disabled ? 'fa-toggle-off' : 'fa-toggle-on'}"></span>
 			</label>
+			<button class="menu_button view-scripts">查看正则</button>
 			<button class="menu_button add-script">添加正则</button>
 			<button class="menu_button remove-group">删除</button>
 		</div>
-		<div class="group-scripts"></div>
 	</div>`);
 	return li;
 }
 
 function buildScriptChip(script) {
-	const div = $(`<div class="regex-chip" data-id="${script.id}">
-		<span class="chip-text">${script.scriptName}</span>
-		<label class="checkbox flex-container">
+	const div = $(`<div class="regex-chip" data-id="${script.id}" style="display: flex; align-items: center; margin: 5px 0; padding: 5px; border: 1px solid var(--SmartThemeBorderColor); border-radius: 5px; width: 100%;">
+		<span class="chip-text" style="flex: 1; overflow: hidden; text-overflow: ellipsis;">${script.scriptName}</span>
+		<label class="checkbox flex-container" style="margin: 0 10px;">
 			<input type="checkbox" class="script-enabled" ${script.disabled ? '' : 'checked'} />
 			<span class="fa-solid ${script.disabled ? 'fa-toggle-off' : 'fa-toggle-on'}"></span>
 		</label>
@@ -178,12 +178,6 @@ async function render() {
 		const groups = getActiveGroupsRef();
 		for (const g of groups) {
 			const li = buildGroupItem(g);
-			const scriptsWrap = li.find('.group-scripts');
-			for (const s of g.scripts) {
-				const full = findScriptById(s.id);
-				if (!full) continue;
-				scriptsWrap.append(buildScriptChip(full));
-			}
 
 			li.find('.group-name').on('input', function () {
 				g.name = String($(this).val());
@@ -192,6 +186,60 @@ async function render() {
 			li.find('.group-enabled').on('change', async function () {
 				await toggleGroup(g, $(this).is(':checked'));
 				await refreshList();
+			});
+			li.find('.view-scripts').on('click', async function () {
+				const scripts = [];
+				for (const s of g.scripts) {
+					const full = findScriptById(s.id);
+					if (full) scripts.push(full);
+				}
+				if (scripts.length === 0) {
+					alert('该分组没有正则脚本。');
+					return;
+				}
+				const html = $('<div class="flex-container flexFlowColumn" style="min-width: 400px;"></div>');
+				html.append(`<h3>${g.name} - 正则脚本列表</h3>`);
+				const scriptsList = $('<div class="flex-container flexFlowColumn" style="max-height: 500px; overflow-y: auto;"></div>');
+				
+				for (const s of scripts) {
+					const scriptItem = buildScriptChip(s);
+					// 添加拖动手柄
+					scriptItem.prepend('<span class="drag-handle menu-handle">&#9776;</span>');
+					
+					scriptItem.find('.script-enabled').on('change', async function() {
+						s.disabled = !$(this).is(':checked');
+						$(this).next('span').attr('class', `fa-solid ${s.disabled ? 'fa-toggle-off' : 'fa-toggle-on'}`);
+						await persistScript(s, isScriptScoped(s));
+					});
+					scriptItem.find('.remove-chip').on('click', function() {
+						g.scripts = g.scripts.filter(x => x.id !== s.id);
+						saveGroupsDebounced();
+						scriptItem.remove();
+						if (scriptsList.children().length === 0) {
+							html.find('.popup-ok').trigger('click');
+						}
+					});
+					scriptsList.append(scriptItem);
+				}
+				
+				html.append(scriptsList);
+				
+				// 使脚本列表可排序
+				scriptsList.sortable({
+					handle: '.drag-handle',
+					delay: getSortableDelay(),
+					stop: async function() {
+						const newOrder = [];
+						$(this).children('.regex-chip').each(function() {
+							newOrder.push({ id: $(this).data('id') });
+						});
+						g.scripts = newOrder;
+						saveGroupsDebounced();
+						await reorderAccordingToGroups(getActiveGroupsRef());
+					}
+				});
+				
+				new Popup(html, POPUP_TYPE.CONFIRM, '分组正则脚本', { okButton: t`Close` }).show();
 			});
 			li.find('.add-script').on('click', async function () {
 				await openAddScriptPopup(async (ids) => {
@@ -208,34 +256,6 @@ async function render() {
 				if (idx >= 0) arr.splice(idx, 1);
 				saveGroupsDebounced();
 				li.remove();
-			});
-
-			li.find('.group-scripts').sortable({
-				delay: getSortableDelay(),
-				stop: async function () {
-					const newOrder = [];
-					$(this).children('.regex-chip').each(function () {
-						newOrder.push({ id: $(this).data('id') });
-					});
-					g.scripts = newOrder;
-					saveGroupsDebounced();
-					await reorderAccordingToGroups(getActiveGroupsRef());
-				}
-			});
-
-			li.on('click', '.remove-chip', function () {
-				const id = $(this).closest('.regex-chip').data('id');
-				g.scripts = g.scripts.filter(x => x.id !== id);
-				saveGroupsDebounced();
-				$(this).closest('.regex-chip').remove();
-			});
-
-			li.on('change', '.script-enabled', async function () {
-				const id = $(this).closest('.regex-chip').data('id');
-				const s = findScriptById(id);
-				if (!s) return;
-				s.disabled = !$(this).is(':checked');
-				await persistScript(s, isScriptScoped(s));
 			});
 
 			groupsList.append(li);
