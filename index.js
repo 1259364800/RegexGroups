@@ -57,7 +57,7 @@ function buildGroupItem(group) {
 }
 
 function buildScriptChip(script) {
-	const div = $(`<div class="regex-chip" data-id="${script.id}" style="display: flex; align-items: center; margin: 2px 0; padding: 3px 5px; border: 1px solid var(--SmartThemeBorderColor); border-radius: 4px; width: 100%; height: 32px;">
+	const div = $(`<div class="regex-chip" data-id="${script.id}" style="display: flex; align-items: center; margin: 2px 0; padding: 3px 5px; border: 1px solid var(--SmartThemeBorderColor); border-radius: 4px; width: 100%; height: 32px; gap: 5px">
 		<span class="chip-text" style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: left;">${script.scriptName}</span>
 		<label class="checkbox flex-container" style="margin: 0 5px;">
 			<input type="checkbox" class="script-enabled" ${script.disabled ? '' : 'checked'} />
@@ -236,7 +236,7 @@ async function render() {
 				for (const s of scripts) {
 					const scriptItem = buildScriptChip(s);
 					// 添加拖动手柄
-					scriptItem.prepend('<span class="drag-handle menu-handle" style="margin-right: 5px; cursor: move;">&#9776;</span>');
+					scriptItem.prepend('<span class="drag-handle menu-handle" style="cursor: move;">&#9776;</span>');
 					
 					scriptItem.find('.script-enabled').on('change', async function() {
 						s.disabled = !$(this).is(':checked');

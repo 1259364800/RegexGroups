@@ -8,10 +8,6 @@
     margin: 6px 0;
 }
 
-.flex-container {
-    width: 100%;
-}
-
 .regex_groups .group-actions {
     display: flex;
     gap: 6px;
