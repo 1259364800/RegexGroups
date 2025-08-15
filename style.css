@@ -46,3 +46,9 @@
     flex: 1;
     height: 24px;
 }
+
+.text_pole {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}

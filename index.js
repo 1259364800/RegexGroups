@@ -140,10 +140,10 @@ async function reorderAccordingToGroups(groups) {
 function openAddScriptPopup(onPick) {
 	const { global, scoped } = getAllRegexScripts();
 	const all = [...global, ...scoped];
-	const html = $('<div class="flex-container flexFlowColumn"></div>');
+	const html = $('<div class="flex-container flexFlowColumn" style="height: 95dvh"></div>');
 	const list = $('<div class="flex-container flexFlowColumn" style="overflow-y: auto;"></div>');
 	for (const s of all) {
-		const row = $(`<label class="checkbox flex-container"><input type="checkbox" value="${s.id}"><span>${s.scriptName}</span></label>`);
+		const row = $(`<label class="checkbox flex-container" style="flex-wrap: nowrap"><input type="checkbox" value="${s.id}"><span class="text_pole">${s.scriptName}</span></label>`);
 		list.append(row);
 	}
 	html.append('<div>选择要加入分组的正则：</div>');
