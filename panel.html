@@ -1,0 +1,24 @@
+<div class="regex_groups">
+	<div class="inline-drawer">
+		<div class="inline-drawer-toggle inline-drawer-header">
+			<b>正则分组管理</b>
+			<div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
+		</div>
+		<div class="inline-drawer-content">
+			<div class="flex-container alignItemsBaseline">
+				<label class="title_restorable marginRight5">作用域</label>
+				<select id="regex_groups_scope" class="text_pole">
+					<option value="global">全局</option>
+					<option value="scoped">角色专属</option>
+				</select>
+				<div class="expander"></div>
+				<button id="add_regex_group" class="menu_button menu_button_icon">
+					<i class="fa-solid fa-folder-plus"></i>
+					<span>新建分组</span>
+				</button>
+			</div>
+			<small>将多个正则划入分组，统一启用/禁用，并可拖动调整分组与分组内脚本顺序；顺序会同步到正则插件。</small>
+			<div id="regex_groups_list" class="flex-container flexFlowColumn"></div>
+		</div>
+	</div>
+</div>

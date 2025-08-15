@@ -1,0 +1,11 @@
+{
+	"display_name": "正则 分组",
+	"loading_order": 2,
+	"requires": [],
+	"optional": [],
+	"js": "index.js",
+	"css": "style.css",
+	"author": "1259364800",
+	"version": "1.0.0",
+	"homePage": "https://github.com/1259364800/RegexGroups"
+}

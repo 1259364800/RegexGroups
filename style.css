@@ -1,0 +1,35 @@
+.regex_groups .regex-group-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border: 1px solid var(--SmartThemeBorderColor);
+    border-radius: 6px;
+    padding: 6px;
+    margin: 6px 0;
+    background: var(--SmartThemeBodyColor);
+}
+
+.regex_groups .group-actions {
+    display: flex;
+    gap: 6px;
+    align-items: center
+}
+
+.regex_groups .group-scripts {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap
+}
+
+.regex_groups .regex-chip {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    border: 1px dashed var(--SmartThemeBorderColor);
+    padding: 4px 6px;
+    border-radius: 6px
+}
+
+.regex_groups .group-name {
+    min-width: 200px
+}
