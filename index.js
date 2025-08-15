@@ -1,9 +1,9 @@
-import { extension_settings, renderExtensionTemplateAsync, writeExtensionField } from '../../extensions.js';
-import { characters } from '../../../script.js';
-import { t } from '../../i18n.js';
-import { getSortableDelay, uuidv4 } from '../../utils.js';
-import { getContext } from '../../st-context.js';
-import { Popup, POPUP_TYPE } from '../../popup.js';
+import { extension_settings, renderExtensionTemplateAsync, writeExtensionField } from '../../../extensions.js';
+import { characters } from '../../../../script.js';
+import { t } from '../../../i18n.js';
+import { getSortableDelay, uuidv4 } from '../../../utils.js';
+import { getContext } from '../../../st-context.js';
+import { Popup, POPUP_TYPE } from '../../../popup.js';
 
 const MODULE_NAME = 'RegexGroups';
 
