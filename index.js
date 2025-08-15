@@ -316,7 +316,7 @@ async function render() {
 
 	addGroupBtn.on('click', async function () {
 		const html = $('<div class="flex-container flexFlowColumn"></div>');
-		const input = $('<input type="text" class="text_pole" placeholder="请输入分组名称" value="新建分组" />');
+		const input = $('<input type="text" class="chip_text" placeholder="请输入分组名称" value="新建分组" />');
 		html.append(input);
 		
 		const popup = new Popup(html, POPUP_TYPE.CONFIRM, '添加正则分组', { okButton: t`Add` });

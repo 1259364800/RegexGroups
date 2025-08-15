@@ -35,18 +35,14 @@
 }
 
 .chip-text {
-    color: #fff;
-}
-
-.regex-groups .regex-group-item .group-name {
-    flex: 1;
-    height: 24px;
-}
-
-.text_pole {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
     color: #fff;
     text-align: left;
+}
+
+.regex-groups .regex-group-item .group-name {
+    flex: 1;
+    height: 24px;
 }
