@@ -42,30 +42,30 @@ function saveGroupsDebounced() {
 }
 
 function buildGroupItem(group) {
-	const li = $(`<div class="regex-group-item" data-id="${group.id}" style="display: flex; align-items: center; margin: 5px 0; padding: 8px; border: 1px solid var(--SmartThemeBorderColor); border-radius: 5px;">
-		<span class="drag-handle menu-handle" style="margin-right: 10px;">&#9776;</span>
-		<input class="group-name text_pole" value="${group.name}" style="flex: 1; margin-right: 10px;"/>
-		<div class="group-actions" style="display: flex; align-items: center; gap: 5px;">
-			<label class="checkbox flex-container" title="${group.disabled ? '启用' : '禁用'}分组">
+	const li = $(`<div class="regex-group-item" data-id="${group.id}" style="display: flex; align-items: center; margin: 3px 0; padding: 5px 8px; border: 1px solid var(--SmartThemeBorderColor); border-radius: 5px; height: 36px;">
+		<span class="drag-handle menu-handle" style="margin-right: 8px; cursor: move;">&#9776;</span>
+		<input class="group-name text_pole" value="${group.name}" style="flex: 1; margin-right: 8px; height: 24px;"/>
+		<div class="group-actions" style="display: flex; align-items: center; gap: 3px; white-space: nowrap;">
+			<label class="checkbox flex-container" title="${group.disabled ? '启用' : '禁用'}分组" style="margin: 0;">
 				<input type="checkbox" class="group-enabled" ${group.disabled ? '' : 'checked'} />
 				<span class="fa-solid ${group.disabled ? 'fa-toggle-off' : 'fa-toggle-on'}"></span>
 			</label>
-			<button class="menu_button view-scripts" title="查看正则"><i class="fa-solid fa-eye"></i></button>
-			<button class="menu_button add-script" title="添加正则"><i class="fa-solid fa-plus"></i></button>
-			<button class="menu_button remove-group" title="删除分组"><i class="fa-solid fa-trash"></i></button>
+			<button class="menu_button view-scripts" title="查看正则" style="padding: 2px 5px; min-height: 28px;"><i class="fa-solid fa-eye"></i></button>
+			<button class="menu_button add-script" title="添加正则" style="padding: 2px 5px; min-height: 28px;"><i class="fa-solid fa-plus"></i></button>
+			<button class="menu_button remove-group" title="删除分组" style="padding: 2px 5px; min-height: 28px;"><i class="fa-solid fa-trash"></i></button>
 		</div>
 	</div>`);
 	return li;
 }
 
 function buildScriptChip(script) {
-	const div = $(`<div class="regex-chip" data-id="${script.id}" style="display: flex; align-items: center; margin: 5px 0; padding: 5px; border: 1px solid var(--SmartThemeBorderColor); border-radius: 5px; width: 100%;">
-		<span class="chip-text" style="flex: 1; overflow: hidden; text-overflow: ellipsis;">${script.scriptName}</span>
-		<label class="checkbox flex-container" style="margin: 0 10px;">
+	const div = $(`<div class="regex-chip" data-id="${script.id}" style="display: flex; align-items: center; margin: 2px 0; padding: 3px 5px; border: 1px solid var(--SmartThemeBorderColor); border-radius: 4px; width: 100%; height: 32px;">
+		<span class="chip-text" style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${script.scriptName}</span>
+		<label class="checkbox flex-container" style="margin: 0 5px;">
 			<input type="checkbox" class="script-enabled" ${script.disabled ? '' : 'checked'} />
 			<span class="fa-solid ${script.disabled ? 'fa-toggle-off' : 'fa-toggle-on'}"></span>
 		</label>
-		<button class="menu_button remove-chip">移除</button>
+		<button class="menu_button remove-chip" style="padding: 1px 4px; min-height: 24px;">移除</button>
 	</div>`);
 	return div;
 }
@@ -178,27 +178,27 @@ async function render() {
 		'gap': '5px'
 	});
 	
+	// 添加样式
+	groupsList.css({
+		'border': '1px solid var(--SmartThemeBorderColor)',
+		'border-radius': '5px',
+		'padding': '5px',
+		'margin-top': '5px',
+		'max-height': '500px',
+		'overflow-y': 'auto'
+	});
+	
 	// 创建标题行，包含标题和添加按钮
-	const titleRow = $(`<div style="display: flex; align-items: center; justify-content: space-between; margin-top: 15px; margin-bottom: 5px;">
+	const titleRow = $(`<div style="display: flex; align-items: center; justify-content: space-between; margin-top: 10px; margin-bottom: 3px;">
 		<div>
-			<h3 style="margin-bottom: 5px;">正则分组管理</h3>
-			<p style="font-size: 0.9em; opacity: 0.8;">创建分组来组织和管理您的正则表达式</p>
+			<h3 style="margin-bottom: 3px;">正则分组管理</h3>
+			<p style="font-size: 0.9em; opacity: 0.8; margin: 0;">创建分组来组织和管理您的正则表达式</p>
 		</div>
 	</div>`);
 	
 	// 将添加按钮移动到标题行
 	addGroupBtn.detach();
 	titleRow.append(addGroupBtn);
-	
-	// 添加样式
-	groupsList.css({
-		'border': '1px solid var(--SmartThemeBorderColor)',
-		'border-radius': '5px',
-		'padding': '10px',
-		'margin-top': '10px',
-		'max-height': '500px',
-		'overflow-y': 'auto'
-	});
 	
 	// 添加标题行
 	groupsList.before(titleRow);
@@ -231,14 +231,14 @@ async function render() {
 					alert('该分组没有正则脚本。');
 					return;
 				}
-				const html = $('<div class="flex-container flexFlowColumn" style="min-width: 400px;"></div>');
-				html.append(`<h3>${g.name} - 正则脚本列表</h3>`);
-				const scriptsList = $('<div class="flex-container flexFlowColumn" style="max-height: 500px; overflow-y: auto;"></div>');
+				const html = $('<div class="flex-container flexFlowColumn" style="min-width: 450px;"></div>');
+				html.append(`<h3 style="margin: 0 0 5px 0;">${g.name} - 正则脚本列表</h3>`);
+				const scriptsList = $('<div class="flex-container flexFlowColumn" style="max-height: 400px; overflow-y: auto; margin-top: 5px;"></div>');
 				
 				for (const s of scripts) {
 					const scriptItem = buildScriptChip(s);
 					// 添加拖动手柄
-					scriptItem.prepend('<span class="drag-handle menu-handle">&#9776;</span>');
+					scriptItem.prepend('<span class="drag-handle menu-handle" style="margin-right: 5px; cursor: move;">&#9776;</span>');
 					
 					scriptItem.find('.script-enabled').on('change', async function() {
 						s.disabled = !$(this).is(':checked');
