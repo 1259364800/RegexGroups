@@ -6,6 +6,7 @@ import { getContext } from '../../../st-context.js';
 import { Popup, POPUP_TYPE } from '../../../popup.js';
 
 const MODULE_NAME = 'RegexGroups';
+const PATH = '/third-party/RegexGroups';
 
 function getAllRegexScripts() {
 	const ctx = getContext();
@@ -161,7 +162,7 @@ function openAddScriptPopup(onPick) {
 
 async function render() {
 	const container = $('#regex_container');
-	const root = $(await renderExtensionTemplateAsync(MODULE_NAME, 'panel'));
+	const root = $(await renderExtensionTemplateAsync(PATH, 'panel'));
 	container.append(root);
 
 	const tabSelector = root.find('#regex_groups_scope');
