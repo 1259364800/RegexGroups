@@ -1,11 +1,13 @@
 {
+	"name": "RegexGroups",
 	"display_name": "正则 分组",
 	"loading_order": 2,
 	"requires": [],
 	"optional": [],
+	"settings": "panel.html",
 	"js": "index.js",
 	"css": "style.css",
 	"author": "1259364800",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"homePage": "https://github.com/1259364800/RegexGroups"
 }
